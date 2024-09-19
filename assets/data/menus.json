@@ -1,0 +1,18 @@
+{
+  "l1.pt": {
+    "name": "\uD83C\uDDF5\uD83C\uDDF9   Exame Escrito, Nível 1",
+    "shortName": "\uD83C\uDDF5\uD83C\uDDF9   Nível 1"
+  },
+  "l1.en": {
+    "name": "\uD83C\uDDEC\uD83C\uDDE7   Written Exam, Level 1",
+    "shortName": "\uD83C\uDDEC\uD83C\uDDE7   Level 1"
+  },
+  "l2.pt": {
+    "name": "\uD83C\uDDF5\uD83C\uDDF9   Exame Escrito, Nível 2",
+    "shortName": "\uD83C\uDDF5\uD83C\uDDF9   Nível 2"
+  },
+  "l2.en": {
+    "name": "\uD83C\uDDEC\uD83C\uDDE7   Written Exam, Level 2",
+    "shortName": "\uD83C\uDDEC\uD83C\uDDE7   Level 2"
+  }
+}
