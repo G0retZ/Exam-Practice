@@ -47,11 +47,15 @@ class MenuItem {
   final String name;
   final String shortName;
   Set<Exam> items = {};
+  Set<String> paidExams = {};
 
   MenuItem({
     required this.name,
     required this.shortName,
   });
+
+  bool hasExamsToPurchase() =>
+      !items.map((it) => it.date).toSet().containsAll(paidExams);
 
   MenuItem.fromJson(Map<String, dynamic> json)
       : name = json.getString('name'),

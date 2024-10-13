@@ -32,8 +32,8 @@ String _settings =
 class Data {
   final Map<String, Exam> exams = {};
   final Map<String, MenuItem> menus = {};
-  late final Box<ExamsSourceEntity> entitiesBox;
-  late final Box<LastCheckEntity> lastCheckBox;
+  late final Box<ExamsSourceEntity> _entitiesBox;
+  late final Box<LastCheckEntity> _lastCheckBox;
 
   Future<void> init() async {
     await initializeDateFormatting();
@@ -46,8 +46,8 @@ class Data {
         .runes
         .map((it) => it - DateTime.now().year + 2000)
         .let(String.fromCharCodes);
-    entitiesBox = store.box<ExamsSourceEntity>();
-    lastCheckBox = store.box<LastCheckEntity>();
+    _entitiesBox = store.box<ExamsSourceEntity>();
+    _lastCheckBox = store.box<LastCheckEntity>();
   }
 
   Future<Result<String?>> loadData() async {
@@ -60,7 +60,7 @@ class Data {
       case Failure<Map<String, MenuItem>>():
         return result.cast();
     }
-    if (entitiesBox.getAll().isEmpty) {
+    if (_entitiesBox.getAll().isEmpty) {
       for (var path in builtInExams) {
         final result = (await _loadExamsFromAssets('$_localPath/$path.json'))
             .map<void>((exam) {
@@ -70,18 +70,20 @@ class Data {
             examId: exam.id,
             data: '',
           )..setExam(exam);
-          entitiesBox.put(entity);
+          _entitiesBox.put(entity);
         });
         if (result is Failure) return result.cast();
       }
     }
 
-    var lastCheck = lastCheckBox.get(1) ??
+    var lastCheck = _lastCheckBox.get(1) ??
         LastCheckEntity(date: DateFormat.yMMMd('en_GB').format(DateTime.now()))
-            .also((it) => lastCheckBox.put(it));
+            .also((it) => _lastCheckBox.put(it));
+    final Set<String> versionsKeys = {};
     final updateResult = await (await _loadVersionsFromNetwork(1))
         .thenAsync<String?>((versions) async {
-      final examEntities = entitiesBox.getAll();
+      versionsKeys.addAll(versions.keys);
+      final examEntities = _entitiesBox.getAll();
       for (var entity in examEntities) {
         final id =
             entity.path.split('/').last.replaceAll(RegExp(r'\.json.*'), '');
@@ -89,20 +91,26 @@ class Data {
           final result =
               (await _loadExamsFromNetwork(entity.path, 2)).map((source) {
             entity.setExam(source);
-            entitiesBox.put(entity);
+            _entitiesBox.put(entity);
             return true;
           });
           if (result is Failure) return Success(lastCheck.date);
         }
       }
       lastCheck.date = DateFormat.yMMMd('en_GB').format(DateTime.now());
-      lastCheckBox.put(lastCheck);
+      _lastCheckBox.put(lastCheck);
       return const Success(null);
     });
-    entitiesBox.getAll().map((it) => it.getExam()).forEach((exams) {
-      menus[exams.id]?.items.addAll(exams.exams);
+    _entitiesBox.getAll().map((it) => it.getExam()).forEach((exams) {
+      final id = exams.id;
+      menus[id]?.items.addAll(exams.exams);
+      menus[id]?.paidExams.addAll(
+            versionsKeys
+                .where((it) => it.contains(id) && it.startsWith('20'))
+                .map((it) => it.substring(0, 10).replaceAll('.', '-')),
+          );
       for (var exam in exams.exams) {
-        this.exams['${exam.date}.${exams.id}'] = exam;
+        this.exams['${exam.date}.$id'] = exam;
       }
     });
     return updateResult.mapError((_) => lastCheck.date);
@@ -116,7 +124,7 @@ class Data {
           examId: exams.id,
           data: '',
         )..setExam(exams);
-        entitiesBox.put(entity);
+        _entitiesBox.put(entity);
         menus[exams.id]?.items.addAll(exams.exams);
         for (var exam in exams.exams) {
           this.exams['${exam.date}.${exams.id}'] = exam;

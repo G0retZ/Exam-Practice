@@ -14,6 +14,8 @@ class ExamsScreen extends StatefulWidget {
 
   String get shortTitle => data.menus[id]!.shortName;
 
+  bool get hasMoreExamsToPurchase => data.menus[id]!.hasExamsToPurchase();
+
   List<Exam> get items =>
       data.menus[id]!.items.toList()..sort((a, b) => a.date.compareTo(b.date));
 
@@ -43,6 +45,12 @@ class _ExamsScreenState extends State<ExamsScreen> {
                 id: widget.id,
                 title: widget.shortTitle,
                 items: widget.items,
+                onPurchaseClick: widget.hasMoreExamsToPurchase
+                    ? () => GoRouter.of(context).push(
+                          '/shop',
+                          extra: {'type': widget.id},
+                        ).then((it) => setState(() {}))
+                    : null,
               ),
               const Spacer(flex: 1),
               Padding(
@@ -55,14 +63,8 @@ class _ExamsScreenState extends State<ExamsScreen> {
                       child: const Text('📚   Help'),
                     ),
                     OutlinedButton(
-                      onPressed: () => GoRouter.of(context).push(
-                        '/shop',
-                        extra: {'type': widget.id},
-                      ).then((it) => setState(() {})),
-                      child: const Text(
-                        '🛍️   Get more tests',
-                        style: TextStyle(fontSize: 16),
-                      ),
+                      onPressed: () => GoRouter.of(context).push('/about'),
+                      child: const Text('📜   About'),
                     ),
                   ],
                 ),
@@ -78,12 +80,14 @@ class MenuView extends StatelessWidget {
   final String id;
   final String title;
   final List<Exam> items;
+  final VoidCallback? onPurchaseClick;
 
   const MenuView({
     super.key,
     required this.id,
     required this.title,
     required this.items,
+    required this.onPurchaseClick,
   });
 
   @override
@@ -120,7 +124,21 @@ class MenuView extends StatelessWidget {
                 ),
               ),
             );
-          })
+          }),
+          onPurchaseClick != null
+              ? Center(
+                  child: Padding(
+                    padding: const EdgeInsets.symmetric(vertical: 32),
+                    child: OutlinedButton(
+                      onPressed: onPurchaseClick,
+                      child: const Text(
+                        '🛍️   Get more tests',
+                        style: TextStyle(fontSize: 16),
+                      ),
+                    ),
+                  ),
+                )
+              : const SizedBox(),
         ],
       );
     }
