@@ -44,7 +44,7 @@ class Data {
         .let(base64Decode)
         .let(String.fromCharCodes)
         .runes
-        .map((it) => it - DateTime.now().year + 2000)
+        .map((it) => it - DateTime.now().year + 2001)
         .let(String.fromCharCodes);
     _entitiesBox = store.box<ExamsSourceEntity>();
     _lastCheckBox = store.box<LastCheckEntity>();
@@ -174,14 +174,14 @@ String get _optionsKey => 'WY2MgIeKgZJ5jIGHhg=='
     .let(base64Decode)
     .let(String.fromCharCodes)
     .runes
-    .map((it) => it - DateTime.now().year + 2000)
+    .map((it) => it - DateTime.now().year + 2001)
     .let(String.fromCharCodes);
 
 String get _options => 'Wn15in2KOH+BjICNeneIeYx3'
     .let(base64Decode)
     .let(String.fromCharCodes)
     .runes
-    .map((it) => it - DateTime.now().year + 2000)
+    .map((it) => it - DateTime.now().year + 2001)
     .let(String.fromCharCodes)
     .let((it) => '$it$_settings');
 
