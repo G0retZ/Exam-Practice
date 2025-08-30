@@ -130,7 +130,7 @@ class MyApp extends StatelessWidget {
                     GoRoute(
                       path: 'purchase',
                       pageBuilder: (context, state) {
-                        final item = state.queryParameters['item']!;
+                        final item = state.uri.queryParameters['item']!;
 
                         return buildZoomDialog<bool>(
                           key: state.pageKey,
