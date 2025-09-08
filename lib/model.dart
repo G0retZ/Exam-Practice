@@ -18,6 +18,18 @@ class LastCheckEntity {
 }
 
 @Entity()
+class UsageEntity {
+  @Id()
+  int id = 0;
+  int count;
+
+  UsageEntity({
+    this.id = 0,
+    required this.count,
+  });
+}
+
+@Entity()
 class ExamsSourceEntity {
   @Id()
   int id = 0;
@@ -31,7 +43,7 @@ class ExamsSourceEntity {
     required this.path,
     required this.version,
     required this.examId,
-    required this.data,
+    this.data = '',
   });
 
   void setExam(ExamsSource item) {

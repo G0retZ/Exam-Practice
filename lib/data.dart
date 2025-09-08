@@ -32,6 +32,7 @@ class Data {
   final Map<String, MenuItem> menus = {};
   late final Box<ExamsSourceEntity> _entitiesBox;
   late final Box<LastCheckEntity> _lastCheckBox;
+  late final Box<UsageEntity> _usageEntity;
 
   Future<void> init() async {
     await initializeDateFormatting();
@@ -46,6 +47,7 @@ class Data {
         .let(String.fromCharCodes);
     _entitiesBox = store.box<ExamsSourceEntity>();
     _lastCheckBox = store.box<LastCheckEntity>();
+    _usageEntity = store.box<UsageEntity>();
   }
 
   Future<Result<String?>> loadData() async {
@@ -79,7 +81,6 @@ class Data {
                 path: path,
                 version: exams.version,
                 examId: exams.id,
-                data: '',
               )..setExam(exams),
             );
           case Failure<ExamsSource>():
@@ -122,6 +123,15 @@ class Data {
     await _lastCheckBox.putAsync(lastCheck);
     return result;
   }
+
+  Future<void> updateUsage(int count) async {
+    final usage = await _usageEntity.getAsync(1)
+      ?..count += count;
+    await _usageEntity.putAsync(usage ?? UsageEntity(count: count));
+  }
+
+  Future<bool> get isOverused =>
+      _usageEntity.getAsync(1).then((it) => (it?.count ?? 0) > 16);
 
   Future<Result<Map<String, MenuItem>>> _loadMenus() =>
       loadFile('$_remotePath/menus.json', 2).then(

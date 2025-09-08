@@ -25,7 +25,7 @@ class AboutScreen extends StatelessWidget {
               ),
               const SizedBox(height: 16),
               const Text(
-                'It took me 200 hours of pure efforts\nto make this app 😔\nTo process all the exams materials,\n turn them into code etc. 🫣',
+                'It took me 240 hours of pure efforts\nto make this app 😔\nTo process all the exams materials,\n turn them into code etc. 🫣',
                 textAlign: TextAlign.center,
                 style: TextStyle(
                   fontSize: 16,
@@ -66,22 +66,11 @@ class AboutScreen extends StatelessWidget {
                 style: TextStyle(fontSize: 16),
               ),
               const SizedBox(height: 32),
-              OutlinedButton(
-                onPressed: () => GoRouter.of(context)
+              InkWell(
+                onTap: () => GoRouter.of(context)
                     .push('/web', extra: {'type': 'donate'}),
-                child: const Wrap(
-                  crossAxisAlignment: WrapCrossAlignment.center,
-                  children: [
-                    Text('Support with'),
-                    SizedBox(width: 8),
-                    Padding(
-                      padding: EdgeInsets.only(bottom: 8),
-                      child: Text(
-                        '☕️',
-                        style: TextStyle(fontSize: 28),
-                      ),
-                    ),
-                  ],
+                child: Image(
+                  image: AssetImage('assets/images/donate_button.png'),
                 ),
               ),
               const Spacer(flex: 2),

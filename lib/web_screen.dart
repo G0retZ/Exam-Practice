@@ -9,8 +9,8 @@ const deepLinkPrefix = 'https://exams.paragliding.g0retz.app';
 
 const urlTypes = {
   'donate': [
-    '☕️   Support with donation',
-    'https://ko-fi.com/g0retz#checkoutModal',
+    '❤️   Support with donations',
+    'https://liberapay.com/G0retZ/donate',
   ],
   'license': [
     '⚖️   License',
@@ -51,6 +51,7 @@ class _WebScreenState extends State<WebScreen> {
           onHttpError: (HttpResponseError error) {},
           onWebResourceError: (WebResourceError error) {},
           onNavigationRequest: (NavigationRequest request) {
+            debugPrint('Boom ${request.url}');
             if (request.url.startsWith(deepLinkPrefix)) {
               final ctx = context;
               final route = request.url.replaceAll(deepLinkPrefix, '');

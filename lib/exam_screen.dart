@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
+import 'package:para_exams/data.dart';
 
 import 'common.dart';
 import 'model.dart';
@@ -25,11 +26,13 @@ class ExamState {
 class ExamScreen extends StatefulWidget {
   final String title;
   final Exam exam;
+  final Data data;
 
   const ExamScreen({
     super.key,
     required this.title,
     required this.exam,
+    required this.data,
   });
 
   @override
@@ -72,7 +75,17 @@ class _ExamScreenState extends State<ExamScreen> {
                       child: Padding(
                         padding: const EdgeInsets.all(16),
                         child: FilledButton(
-                          onPressed: () => setState(() => state = state.next()),
+                          onPressed: () {
+                            if (!state.isRevealed) {
+                              final router = GoRouter.of(context);
+                              widget.data
+                                  .updateUsage(1)
+                                  .then((_) => widget.data.isOverused)
+                                  .then((it) => router.takeIf((_) => it))
+                                  .then((it) => it?.push('/donate'));
+                            }
+                            setState(() => state = state.next());
+                          },
                           child: Padding(
                             padding: const EdgeInsets.symmetric(vertical: 16),
                             child: Text(

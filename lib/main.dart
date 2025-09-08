@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:go_router/go_router.dart';
+import 'package:para_exams/donate_dialog.dart';
+import 'package:para_exams/zoom_dialog_transition.dart';
 
 import 'about_screen.dart';
 import 'data.dart';
@@ -83,6 +85,7 @@ class MyApp extends StatelessWidget {
                             key: Key(id),
                             title: title,
                             exam: data.exams[id]!,
+                            data: data,
                           ),
                         );
                       },
@@ -124,6 +127,18 @@ class MyApp extends StatelessWidget {
                           ),
                         );
                       },
+                    ),
+                    GoRoute(
+                      path: 'donate',
+                      pageBuilder: (context, state) => buildZoomDialog<bool>(
+                        key: state.pageKey,
+                        name: state.fullPath,
+                        sourceOffset: const Offset(1, 0),
+                        context: context,
+                        child: DonateDialog(
+                          data: data,
+                        ),
+                      ),
                     ),
                   ],
                 ),

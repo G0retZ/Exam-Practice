@@ -81,6 +81,28 @@ final _entities = <obx_int.ModelEntity>[
     relations: <obx_int.ModelRelation>[],
     backlinks: <obx_int.ModelBacklink>[],
   ),
+  obx_int.ModelEntity(
+    id: const obx_int.IdUid(4, 5147849829277488308),
+    name: 'UsageEntity',
+    lastPropertyId: const obx_int.IdUid(2, 553780083916525105),
+    flags: 0,
+    properties: <obx_int.ModelProperty>[
+      obx_int.ModelProperty(
+        id: const obx_int.IdUid(1, 1213532024867224767),
+        name: 'id',
+        type: 6,
+        flags: 1,
+      ),
+      obx_int.ModelProperty(
+        id: const obx_int.IdUid(2, 553780083916525105),
+        name: 'count',
+        type: 6,
+        flags: 0,
+      ),
+    ],
+    relations: <obx_int.ModelRelation>[],
+    backlinks: <obx_int.ModelBacklink>[],
+  ),
 ];
 
 /// Shortcut for [obx.Store.new] that passes [getObjectBoxModel] and for Flutter
@@ -121,7 +143,7 @@ Future<obx.Store> openStore({
 obx_int.ModelDefinition getObjectBoxModel() {
   final model = obx_int.ModelInfo(
     entities: _entities,
-    lastEntityId: const obx_int.IdUid(3, 4178312833828798766),
+    lastEntityId: const obx_int.IdUid(4, 5147849829277488308),
     lastIndexId: const obx_int.IdUid(0, 0),
     lastRelationId: const obx_int.IdUid(0, 0),
     lastSequenceId: const obx_int.IdUid(0, 0),
@@ -229,6 +251,41 @@ obx_int.ModelDefinition getObjectBoxModel() {
         return object;
       },
     ),
+    UsageEntity: obx_int.EntityDefinition<UsageEntity>(
+      model: _entities[2],
+      toOneRelations: (UsageEntity object) => [],
+      toManyRelations: (UsageEntity object) => {},
+      getId: (UsageEntity object) => object.id,
+      setId: (UsageEntity object, int id) {
+        object.id = id;
+      },
+      objectToFB: (UsageEntity object, fb.Builder fbb) {
+        fbb.startTable(3);
+        fbb.addInt64(0, object.id);
+        fbb.addInt64(1, object.count);
+        fbb.finish(fbb.endTable());
+        return object.id;
+      },
+      objectFromFB: (obx.Store store, ByteData fbData) {
+        final buffer = fb.BufferContext(fbData);
+        final rootOffset = buffer.derefObject(0);
+        final idParam = const fb.Int64Reader().vTableGet(
+          buffer,
+          rootOffset,
+          4,
+          0,
+        );
+        final countParam = const fb.Int64Reader().vTableGet(
+          buffer,
+          rootOffset,
+          6,
+          0,
+        );
+        final object = UsageEntity(id: idParam, count: countParam);
+
+        return object;
+      },
+    ),
   };
 
   return obx_int.ModelDefinition(model, bindings);
@@ -272,5 +329,18 @@ class LastCheckEntity_ {
   /// See [LastCheckEntity.date].
   static final date = obx.QueryStringProperty<LastCheckEntity>(
     _entities[1].properties[1],
+  );
+}
+
+/// [UsageEntity] entity fields to define ObjectBox queries.
+class UsageEntity_ {
+  /// See [UsageEntity.id].
+  static final id = obx.QueryIntegerProperty<UsageEntity>(
+    _entities[2].properties[0],
+  );
+
+  /// See [UsageEntity.count].
+  static final count = obx.QueryIntegerProperty<UsageEntity>(
+    _entities[2].properties[1],
   );
 }
