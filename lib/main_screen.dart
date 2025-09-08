@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:para_exams/palette.dart';
@@ -11,6 +13,10 @@ sealed class AppState {}
 class AppStatePending extends AppState {}
 
 class AppStateError extends AppState {}
+
+class AppStateParseError extends AppState {}
+
+class AppStateNetworkError extends AppState {}
 
 class AppStateOutdated extends AppState {
   String date;
@@ -50,7 +56,11 @@ class _MainScreenState extends State<MainScreen> {
                     res?.let((it) => AppStateOutdated(date: it)) ??
                     AppStateFresh(),
               )
-              .getOrElse((exception) => AppStateError())
+              .getOrElse((exception) => switch (exception) {
+                    HttpException() => AppStateNetworkError(),
+                    ParseException() => AppStateParseError(),
+                    Exception() => AppStateError(),
+                  })
               .also((st) => setState(() => state = st)),
         );
   }
@@ -158,16 +168,18 @@ class MenuView extends StatelessWidget {
               )
             : Column(
                 children: [
-                  ...items.map((it) => Padding(
-                        padding: const EdgeInsets.symmetric(vertical: 8),
-                        child: ElevatedButton(
-                          onPressed: () {
-                            var extra = {'id': it.key};
-                            GoRouter.of(context).push('/exams', extra: extra);
-                          },
-                          child: Text(it.value.name),
-                        ),
-                      ))
+                  ...items.map(
+                    (it) => Padding(
+                      padding: const EdgeInsets.symmetric(vertical: 8),
+                      child: ElevatedButton(
+                        onPressed: () {
+                          var extra = {'id': it.key};
+                          GoRouter.of(context).push('/exams', extra: extra);
+                        },
+                        child: Text(it.value.name),
+                      ),
+                    ),
+                  )
                 ],
               ),
       };
@@ -189,6 +201,8 @@ class MainTopBar extends StatelessWidget {
       color: switch (state) {
         AppStatePending() => Palette.getMissed(context),
         AppStateError() => Palette.getIncorrect(context),
+        AppStateParseError() => Palette.getIncorrect(context),
+        AppStateNetworkError() => Palette.getIncorrect(context),
         AppStateOutdated() => Palette.getMissed(context),
         AppStateFresh() => Palette.getCorrect(context),
       },
@@ -209,6 +223,8 @@ class MainTopBar extends StatelessWidget {
                 switch (state) {
                   AppStatePending() => 'Updating data...',
                   AppStateError() => 'Internal failure. Try again',
+                  AppStateParseError() => 'Internal failure. Try again',
+                  AppStateNetworkError() => 'Network error. Try again',
                   AppStateOutdated() =>
                     'Last updated on ${(state as AppStateOutdated).date}',
                   AppStateFresh() => 'Data is updated!',
