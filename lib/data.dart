@@ -113,8 +113,9 @@ class Data {
     examEntities.removeWhere((it) => examsToRemove.contains(it.id));
     examEntities.map((it) => it.getExam()).forEach((exams) {
       final id = exams.id;
-      menus[id]?.items.addAll(exams.exams);
-      for (var exam in exams.exams) {
+      final sorted = exams.exams..sort((a, b) => b.date.compareTo(a.date));
+      menus[id]?.items.addAll(sorted);
+      for (var exam in sorted) {
         this.exams['${exam.date}.$id'] = exam;
       }
     });

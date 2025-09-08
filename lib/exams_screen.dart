@@ -14,8 +14,7 @@ class ExamsScreen extends StatefulWidget {
 
   String get shortTitle => data.menus[id]!.shortName;
 
-  List<Exam> get items =>
-      data.menus[id]!.items.toList()..sort((a, b) => a.date.compareTo(b.date));
+  List<Exam> get items => data.menus[id]!.items;
 
   const ExamsScreen({
     super.key,

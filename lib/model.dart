@@ -58,7 +58,7 @@ class ExamsSourceEntity {
 class MenuItem {
   final String name;
   final String shortName;
-  Set<Exam> items = {};
+  List<Exam> items = [];
 
   MenuItem({
     required this.name,
