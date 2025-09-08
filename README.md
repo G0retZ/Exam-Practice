@@ -12,19 +12,19 @@
 
 # FPVL Exams Practice
 
-With this app you will have convenient way to prepare for your exams.
+With this app you will have convenient way to prepare for your paragliding exams.
 
 ### Some features:
 
 - Rich content: Has accumulated all exams from previous years so you will have a great variety of questions to prepare for.
-- Always up to date: All exams are automatically updating to the latest changes vithout the need of updating the app itself.
+- Always up to date: All exams are automatically updating to the latest changes without the need of updating the app itself.
 - Great UX: Easy to use and estimate your how successful you are with the tests.
 - Full privacy: Doesn't collect any personal or analytical data, everything is stored locally and gets removed with the app.
 - Always free: no registration or payment is needed to use. No paywalls. Though from time to time you might be asked to make a donation...
 - No ads: Completely free of any kind of ads!
 - Libre and open source: guarantees it will stay free forever and will have no malware inside. You are free even to build it from the sources by yourself.
 
-## Enjoy using it!
+## Good luck on the exam! And Happy flying! 🪽
 
 🌻 If you find this app helpful, please consider supporting my efforts on **Liberapay**! I would appreciate it very much 😊
 
