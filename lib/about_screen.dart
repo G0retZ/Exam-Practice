@@ -67,10 +67,8 @@ class AboutScreen extends StatelessWidget {
               ),
               const SizedBox(height: 32),
               OutlinedButton(
-                onPressed: () => GoRouter.of(context).push(
-                  '/shop',
-                  extra: {'type': 'donate'},
-                ),
+                onPressed: () => GoRouter.of(context)
+                    .push('/web', extra: {'type': 'donate'}),
                 child: const Wrap(
                   crossAxisAlignment: WrapCrossAlignment.center,
                   children: [
@@ -91,17 +89,13 @@ class AboutScreen extends StatelessWidget {
                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                 children: [
                   TextButton(
-                    onPressed: () => GoRouter.of(context).push(
-                      '/shop',
-                      extra: {'type': 'license'},
-                    ),
+                    onPressed: () => GoRouter.of(context)
+                        .push('/web', extra: {'type': 'license'}),
                     child: const Text('⚖️   License'),
                   ),
                   TextButton(
-                    onPressed: () => GoRouter.of(context).push(
-                      '/shop',
-                      extra: {'type': 'sources'},
-                    ),
+                    onPressed: () => GoRouter.of(context)
+                        .push('/web', extra: {'type': 'sources'}),
                     child: const Text('💽   Source code'),
                   ),
                 ],

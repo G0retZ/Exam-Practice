@@ -1,8 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:go_router/go_router.dart';
-import 'package:para_exams/purchase_dialog.dart';
-import 'package:para_exams/zoom_dialog_transition.dart';
 
 import 'about_screen.dart';
 import 'data.dart';
@@ -11,9 +9,9 @@ import 'exams_screen.dart';
 import 'help_screen.dart';
 import 'main_screen.dart';
 import 'palette.dart';
-import 'shop_screen.dart';
 import 'slide_transition.dart';
 import 'snack_bar.dart';
+import 'web_screen.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -110,7 +108,7 @@ class MyApp extends StatelessWidget {
                       ),
                     ),
                     GoRoute(
-                      path: 'shop',
+                      path: 'web',
                       pageBuilder: (context, state) {
                         final map = state.extra! as Map<String, dynamic>;
                         final type = map['type'] as String;
@@ -120,31 +118,14 @@ class MyApp extends StatelessWidget {
                           name: state.fullPath,
                           sourceOffset: const Offset(1, 0),
                           context: context,
-                          child: ShopScreen(
+                          child: WebScreen(
                             data: data,
                             type: type,
                           ),
                         );
                       },
                     ),
-                    GoRoute(
-                      path: 'purchase',
-                      pageBuilder: (context, state) {
-                        final item = state.uri.queryParameters['item']!;
-
-                        return buildZoomDialog<bool>(
-                          key: state.pageKey,
-                          name: state.fullPath,
-                          sourceOffset: const Offset(1, 0),
-                          context: context,
-                          child: PurchaseDialog(
-                            data: data,
-                            item: item,
-                          ),
-                        );
-                      },
-                    ),
-                  ]
+                  ],
                 ),
               ],
             ),

@@ -123,21 +123,6 @@ class Data {
     return result;
   }
 
-  Future<Result<void>> addExams(String url, int retries) async =>
-      (await _loadExams(url, retries)).map((exams) {
-        final entity = ExamsSourceEntity(
-          path: url,
-          version: exams.version,
-          examId: exams.id,
-          data: '',
-        )..setExam(exams);
-        _entitiesBox.put(entity);
-        menus[exams.id]?.items.addAll(exams.exams);
-        for (var exam in exams.exams) {
-          this.exams['${exam.date}.${exams.id}'] = exam;
-        }
-      });
-
   Future<Result<Map<String, MenuItem>>> _loadMenus() =>
       loadFile('$_remotePath/menus.json', 2).then(
         (result) => result.then(

@@ -8,22 +8,6 @@ import 'package:webview_flutter/webview_flutter.dart';
 const deepLinkPrefix = 'https://exams.paragliding.g0retz.app';
 
 const urlTypes = {
-  'l1.pt': [
-    '🛍️   Get more tests',
-    'https://ko-fi.com/g0retz/shop/portuguêsnível1',
-  ],
-  'l2.pt': [
-    '🛍️   Get more tests',
-    'https://ko-fi.com/g0retz/shop/portuguêsnível2',
-  ],
-  'l1.en': [
-    '🛍️   Get more tests',
-    'https://ko-fi.com/g0retz/shop/englishlevel1',
-  ],
-  'l2.en': [
-    '🛍️   Get more tests',
-    'https://ko-fi.com/g0retz/shop/englishlevel2',
-  ],
   'donate': [
     '☕️   Support with donation',
     'https://ko-fi.com/g0retz#checkoutModal',
@@ -38,22 +22,21 @@ const urlTypes = {
   ],
 };
 
-class ShopScreen extends StatefulWidget {
+class WebScreen extends StatefulWidget {
   final Data data;
   final String type;
-  final bool isShop;
 
-  ShopScreen({
+  const WebScreen({
     super.key,
     required this.data,
     required this.type,
-  }) : isShop = urlTypes.keys.take(5).contains(type);
+  });
 
   @override
-  State<ShopScreen> createState() => _ShopScreenState();
+  State<WebScreen> createState() => _WebScreenState();
 }
 
-class _ShopScreenState extends State<ShopScreen> {
+class _WebScreenState extends State<WebScreen> {
   late final WebViewController controller;
 
   @override
@@ -68,7 +51,7 @@ class _ShopScreenState extends State<ShopScreen> {
           onHttpError: (HttpResponseError error) {},
           onWebResourceError: (WebResourceError error) {},
           onNavigationRequest: (NavigationRequest request) {
-            if (widget.isShop && request.url.startsWith(deepLinkPrefix)) {
+            if (request.url.startsWith(deepLinkPrefix)) {
               final ctx = context;
               final route = request.url.replaceAll(deepLinkPrefix, '');
               GoRouter.of(ctx).push<bool>(route).then(
