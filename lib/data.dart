@@ -25,7 +25,7 @@ const _remotePath =
 
 Exception? _lastError;
 String _settings =
-    'SUlZXF9xS0xZSIOIbX2Rj2x6i1yEhXdrbUuDSVCHkG+HY3yEgIR/jGVPSWt9ekpQhkhmS2ZggV+EXV9QeYZQkmhwcGxoS0xtX3FQgV2ShYOPfg==';
+    'SkpaXWByTE1aSWZJS11NfpNRkk5PYHhyfE9ihUlLiIhugWaEiHKHgmOShlJMY2xMiHFbk01rjG2MjopRTH9wTINMT2lQTWpQa2+Rf0+NfXNdbA==';
 
 class Data {
   final Map<String, Exam> exams = {};
@@ -43,7 +43,7 @@ class Data {
         .let(base64Decode)
         .let(String.fromCharCodes)
         .runes
-        .map((it) => it - 24)
+        .map((it) => it - DateTime.now().year + 2000)
         .let(String.fromCharCodes);
     _entitiesBox = store.box<ExamsSourceEntity>();
     _lastCheckBox = store.box<LastCheckEntity>();
@@ -168,18 +168,18 @@ class Data {
       );
 }
 
-String get _optionsKey => 'WY2MgIeKgZJ5jIGHhg=='
+String get _optionsKey => 'Wo6NgYiLgpN6jYKIhw=='
     .let(base64Decode)
     .let(String.fromCharCodes)
     .runes
-    .map((it) => it - DateTime.now().year + 2001)
+    .map((it) => it - DateTime.now().year + 2000)
     .let(String.fromCharCodes);
 
-String get _options => 'Wn15in2KOH+BjICNeneIeYx3'
+String get _options => 'W356i36LOYCCjYGOe3iJeo14'
     .let(base64Decode)
     .let(String.fromCharCodes)
     .runes
-    .map((it) => it - DateTime.now().year + 2001)
+    .map((it) => it - DateTime.now().year + 2000)
     .let(String.fromCharCodes)
     .let((it) => '$it$_settings');
 
